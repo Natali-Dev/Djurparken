@@ -78,25 +78,30 @@ namespace Djurparken
             Console.WriteLine("TA BORT DJUR");
             animal.PrintAnimal(animal.animallist);
 
-            Console.Write("Skriv in registreringsnummer på djuret du vill ta bort: ");
-            int choice = int.Parse(Console.ReadLine());
+            Console.Write("Skriv in registreringsnummer på djuret du vill ta bort, Q för tillbaka: ");
+            string choice = Console.ReadLine();
             for (int i = 0; i < animal.animallist.Count; i++)
-            { 
-                if (choice == animal.animallist[i].RegistrationNumber)
+            {
+                if (choice == "Q")
                 {
-                    Console.WriteLine(animal.animallist[i].NameTag + " är borttagen! Tryck valfri knapp för att fortsätta");
-                    animal.animallist.RemoveAt(i);
-                }
-                if (choice == 0)
-                {
-                    break; // TODO tas tillbaka till startmeny om man inte vill ta bort ett djur, via Q
+                    Console.WriteLine(" Tryck valfri knapp för att fortsätta");
+                    break;
 
                 }
+                else if (int.TryParse(choice, out int number)) // TODO kan man göra tvärtom? att konvertera int till string istället och då ha en metod i varje metod BackToMenu();
+                    if (number == animal.animallist[i].RegistrationNumber)
+                    {
+                        Console.WriteLine(animal.animallist[i].NameTag + " är borttagen! Tryck valfri knapp för att fortsätta");
+                        animal.animallist.RemoveAt(i);
+                    }
+
+
             }
-
-
-
         }
+
+
+
+
         public static void CheckHealth(Animal animal) // Hälsokontroller av djur
                                                       // För varje djur ska systemet kunna hålla reda på när djuret senast fick en hälsokontroll, 
                                                       // samt när nästa kontroll är planerad.

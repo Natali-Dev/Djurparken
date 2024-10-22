@@ -1,28 +1,42 @@
+
+
 namespace Djurparken
 {
     public class Staff
     {
+        public enum Jobs
+        {
+            sällskap = 1,
+            matning = 2,
+            rengöring = 3,
+            promenad = 4,
+            skottar = 5,
+            kontorsarbete = 6,
+            vilar_med_fötterna_på_skrivbordet = 7,
+            ledig = 8
+
+        }
         public string Name { get; set; }
         public int IDNumber { get; set; }
         public string Title { get; set; }
+        public Jobs CurrentJob { get; set; }
         public string Job { get; set; }
         public List<Staff> stafflist = new();
-        public List<string> worklist = new();
 
         public Staff()
         {
             Name = "N/A";
             IDNumber = 0000;
             Title = "N/A";
-            Job = "ledig";
+            CurrentJob = Jobs.ledig;
 
         }
-        public Staff(string name, int idNumber, string title, string job)
+        public Staff(string name, int idNumber, string title, Jobs currentJob) //string job
         {
             Name = name;
             IDNumber = idNumber;
             Title = title;
-            Job = job;
+            CurrentJob = currentJob;
 
         }
         public List<Staff> PrintStaff(List<Staff> stafflist)
@@ -33,7 +47,7 @@ namespace Djurparken
                 Console.WriteLine("ID-Nummer: " + s.IDNumber);
                 Console.WriteLine(s.Name);
                 Console.WriteLine("Titel: " + s.Title);
-                Console.WriteLine("Nuvarande arbetssyssla: " + s.Job);
+                Console.WriteLine("Nuvarande arbetssyssla: " + s.CurrentJob); //s.Job
                 Console.WriteLine("______________________________");
                 Console.WriteLine(" Tryck valfri knapp för att fortsätta");
             }
@@ -43,25 +57,12 @@ namespace Djurparken
 
     public static class StaffHandler
     {
-
-        public static void PrintWorklist(Staff staff) //TODO Gör denna till enum 
+        public static void PrintJoblist(Staff staff)
         {
-            staff.worklist.Add("sällskap");
-            staff.worklist.Add("matning");
-            staff.worklist.Add("rengöring");
-            staff.worklist.Add("promenad");
-            staff.worklist.Add("skottar");
-            staff.worklist.Add("kontorsarbete");
-            staff.worklist.Add("vilar med fötterna på skrivbordet");
-
-            int i = 1;
-            foreach (var w in staff.worklist)
+            foreach (Staff.Jobs job in Enum.GetValues(typeof(Staff.Jobs)))
             {
-
-                Console.WriteLine(i + ". " + w);
-                i++;
+                Console.WriteLine((int)job + " " + job); // int skriver ut indexet
             }
-
         }
 
         public static void AddWork(Staff staff) // TODO denna fungerar inte som den ska, den lägger inte in arbetsuppgiften.
@@ -75,16 +76,19 @@ namespace Djurparken
             { // Sök efter match i stafflist
                 if (choice1 == staff.stafflist[i].IDNumber)
                 { // Om en match är hittad
-                    PrintWorklist(staff);
+
+                    PrintJoblist(staff);
                     Console.Write("Välj arbetssyssla utifrån siffor: ");
-                    int choice2 = int.Parse(Console.ReadLine());
-                    for (int j = 1; j < staff.worklist.Count; j++) // sök efter match i worklist
+                    var jobArray = Enum.GetValues(typeof(Staff.Jobs)); // konvertera enum till en array
+                    int choice2 = int.Parse(Console.ReadLine());// sök efter match i enum-lista (heter det ens så?)
+                    for (int j = 0; j < jobArray.Length; j++)
                     {
 
                         if (choice2 == j + 1)  // om match är hittad
                         {
-                            staff.stafflist[i].Job = staff.worklist[j];
-                            Console.WriteLine(staff.stafflist[i].Name + " har just nu arbetsuppgiften " + staff.stafflist[i].Job);// skriv ut
+                            staff.stafflist[i].CurrentJob = (Staff.Jobs)jobArray.GetValue(j);
+                            // staff.stafflist[i].Job = staff.worklist[j];
+                            Console.WriteLine(staff.stafflist[i].Name + " har just nu arbetsuppgiften " + staff.stafflist[i].CurrentJob);// skriv ut
                             staff.PrintStaff(staff.stafflist);
                             break;
                         }
@@ -96,6 +100,7 @@ namespace Djurparken
             }
 
         }
+        public static void SearchJobs() { }
 
         public static void AddStaff(Staff staff)
         {
@@ -106,7 +111,7 @@ namespace Djurparken
             Console.Write("Titel: ");
             string title = Console.ReadLine();
 
-            Staff staff01 = new Staff(name, idNumber, title, staff.Job);
+            Staff staff01 = new Staff(name, idNumber, title, staff.CurrentJob); //, staff.Job
             staff.stafflist.Add(staff01);
 
             staff.PrintStaff(staff.stafflist);
@@ -114,7 +119,7 @@ namespace Djurparken
 
         }
         public static void RemoveStaff(Staff staff)
-        { 
+        {
             staff.PrintStaff(staff.stafflist);
             Console.Write("Välj personal att ta bort utifrån ID-nummer: ");
             int remove = int.Parse(Console.ReadLine());

@@ -27,7 +27,7 @@ namespace Djurparken
             Console.WriteLine("Tryck valfri knapp för att fortsätta");
             Console.ReadKey();
         }
-        public static void SearchForObject(Staff staff, Animal animal)
+        public static void SearchForObject(Staff staff, Animal animal) //TODO denna fungerar inte korrekt!
         {
             Console.WriteLine("DJUR- & PERSONALSÖKNING");
             Console.Write("Sök på vad som helst: ");
