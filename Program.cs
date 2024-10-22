@@ -7,25 +7,25 @@
 // 7. 
 // 8. filsparning via json
 
-        // public void SaveJson(string filePath) // Denna metod tar emot en filväg som parameter, konverterar en lista av OrderItem till en JSON-sträng och skriver den till filen.
-        // {
-        //     string json = JsonConvert.SerializeObject(list, Formatting.Indented);
-        //     File.WriteAllText(filePath, json);
-        // }
-        // public void LoadJson(string filePath) // Denna metod kontrollerar om filen existerar, läser JSON-strängen från filen, och deserialiserar den till en lista av OrderItem.
-        // {
-        //     if (File.Exists(filePath))
-        //     {
-        //         string json = File.ReadAllText(filePath);
-        //         list = JsonConvert.DeserializeObject<List<OrderItem>>(json);
-        //     }
-        // }
+// public void SaveJson(string filePath) // Denna metod tar emot en filväg som parameter, konverterar en lista av OrderItem till en JSON-sträng och skriver den till filen.
+// {
+//     string json = JsonConvert.SerializeObject(list, Formatting.Indented);
+//     File.WriteAllText(filePath, json);
+// }
+// public void LoadJson(string filePath) // Denna metod kontrollerar om filen existerar, läser JSON-strängen från filen, och deserialiserar den till en lista av OrderItem.
+// {
+//     if (File.Exists(filePath))
+//     {
+//         string json = File.ReadAllText(filePath);
+//         list = JsonConvert.DeserializeObject<List<OrderItem>>(json);
+//     }
+// }
 namespace Djurparken
 {
     class Program
     {
 
-        public static List<Staff> stafflist = new(); //gör den static så behövs ingen objektreferens
+        //public static List<Staff> stafflist = new(); //gör den static så behövs ingen objektreferens om den är i Program för att användas i main
         static void Main(string[] args)
         {
             Program program = new();
@@ -39,8 +39,8 @@ namespace Djurparken
 
             animal.animallist.Add(animal01);
             animal.animallist.Add(animal02);
-            stafflist.Add(staff01);
-            stafflist.Add(staff02);
+            staff.stafflist.Add(staff01);
+            staff.stafflist.Add(staff02);
 
             animal.LastCheckup = DateTime.Today.AddMonths(-2); // Vi är bara här tillfälligt!
             animal.NextCheckup = DateTime.Today.AddMonths(2); // Vi är bara här tillfälligt!
@@ -127,7 +127,7 @@ namespace Djurparken
                                 StaffHandler.AddWork(staff);
                                 break;
                             case ConsoleKey.S:
-                                staff.PrintStaff(stafflist);
+                                staff.PrintStaff(staff.stafflist);
                                 break;
                             case ConsoleKey.Q:
                                 Console.WriteLine("Tillbaka, Tryck valfri knapp för att fortsätta");
