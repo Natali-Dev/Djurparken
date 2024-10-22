@@ -57,7 +57,7 @@ namespace Djurparken
 
     public static class StaffHandler
     {
-        public static void PrintJoblist(Staff staff)
+        public static void PrintJoblist()
         {
             foreach (Staff.Jobs job in Enum.GetValues(typeof(Staff.Jobs)))
             {
@@ -65,7 +65,7 @@ namespace Djurparken
             }
         }
 
-        public static void AddWork(Staff staff) // TODO denna fungerar inte som den ska, den lägger inte in arbetsuppgiften.
+        public static void AddWork(Staff staff) 
         {
 
             staff.PrintStaff(staff.stafflist);
@@ -77,7 +77,7 @@ namespace Djurparken
                 if (choice1 == staff.stafflist[i].IDNumber)
                 { // Om en match är hittad
 
-                    PrintJoblist(staff);
+                    PrintJoblist();
                     Console.Write("Välj arbetssyssla utifrån siffor: ");
                     var jobArray = Enum.GetValues(typeof(Staff.Jobs)); // konvertera enum till en array
                     int choice2 = int.Parse(Console.ReadLine());// sök efter match i enum-lista (heter det ens så?)
